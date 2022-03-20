@@ -1,0 +1,31 @@
+#This code will share to you how to connect ssh use phyton to cisco devices
+#Make sure you have to update phyton to new version 
+
+#First install service netmiko 
+
+#Second Call service netmiko with directory ConnectHandler (note: ConnectHandler is directory service for conneting ssh )
+from netmiko import ConnectHandler
+
+#Third create information about cisco device with attached the credential
+SW01 = {
+	   'device_type':'cisco_ios',
+	   'host':'192.168.1.1',
+	   'username':'admin',
+	   'password':'cisco',
+     'secret':'cisco123',
+	   }
+
+#Fourth create session id for conneting ssh to cisco devices (note: anyway you can create the id with any word or char, but in this session i will call the session id with name SSH_CON)
+SSH_CON = ConnectHandler(**SW01)
+
+#Fiveth check the connection (note: if the session is success, phyton will pop up massage like this <netmiko.cisco.cisco_ios.CiscoIosSSH object at 0x03516580> )  
+SSH_CON 
+
+#Sixth try to open privillage 15 with enable (note: if enable is success, phyton will pop up massage like this 'enable\r\nPassword: \r\nR1#')
+SSH_CON.enable()
+
+#Seventh try to push command show privilage (note: if push command is success, phyton will show the credential like this 'Current privilege level is 15')
+SSH_CON.send_command("show privilege")
+
+#Congratulation you're now success connect to your cisco devices, and now you can practice with other show command for testing
+#thanks all, i will share another code what i used for my daily report as network engineer
