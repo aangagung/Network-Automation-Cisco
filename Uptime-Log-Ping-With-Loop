@@ -7,27 +7,27 @@ from netmiko import ConnectHandler
 #create information about cisco device with attached the credential
 
 SW01 = 	{
-	        'device_type':'cisco_ios',
-	        'host':'192.168.1.1',
-	        'username':'admin',
-	        'password':'cisco',
-     	    'secret':'cisco123',
-	      }
+	  'device_type':'cisco_ios',
+	  'host':'192.168.1.1',
+	  'username':'admin',
+	  'password':'cisco',
+     	  'secret':'cisco123',
+	}
 
 SW02 = 	{
-	        'device_type':'cisco_ios',
-	        'host':'192.168.1.2',
-	        'username':'admin',
-	        'password':'cisco',
-     	    'secret':'cisco123',
-	      }
+	   'device_type':'cisco_ios',
+	   'host':'192.168.1.2',
+	   'username':'admin',
+	   'password':'cisco',
+     	   'secret':'cisco123',
+	}
 SW03 = 	{
-	        'device_type':'cisco_ios',
-	        'host':'192.168.1.3',
-	        'username':'admin',
-	        'password':'cisco',
-     	    'secret':'cisco123',
-	      }
+	   'device_type':'cisco_ios',
+	   'host':'192.168.1.3',
+	   'username':'admin',
+	   'password':'cisco',
+     	   'secret':'cisco123',
+	}
 
 #collect information
 
@@ -44,5 +44,7 @@ for device in all_devices:
         SSH_CON.send_command('terminal shell')        
         print (SSH_CON.send_command('show logging | tail 5\n'))
         SSH_CON.send_command('terminal no shell')
-        print("--------- End ---------")
+        print ("--------- Ping ---------")
+	SSH_CON.send_command("ping google.com")
+	print ("--------- End ---------")
         SSH_CON.disconnect()
