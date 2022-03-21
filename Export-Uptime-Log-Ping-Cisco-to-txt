@@ -1,0 +1,63 @@
+#This code will share to you how to auto export txt use phyton to cisco devices
+#Please check Basic-ssh-connection if you need information basic about this code
+#Call service netmiko with directory ConnectHandle
+
+from netmiko import ConnectHandler
+
+#create information about cisco device with attached the credential
+
+SW01 =  {
+	        'device_type': 'cisco_ios',
+	        'host': '10.13.3.1',
+	        'username': 'vendor-it-riad',
+	        'password': 'TvlkPSI1',
+          'secret': 'TvlkPSI1',
+        }
+
+SW02 =  {
+	        'device_type': 'cisco_ios',
+	        'host': '10.13.3.18',
+	        'username': 'vendor-it-riad',
+	        'password': 'TvlkPSI1',
+          'secret': 'TvlkPSI1',
+	      }
+SW03 =  {
+	        'device_type': 'cisco_ios',
+	        'host': '10.13.3.14',
+	        'username': 'vendor-it-riad',
+	        'password': 'TvlkPSI1',
+          'secret': 'TvlkPSI1',
+	      }
+
+#collect information
+
+all_devices = [SW01,SW02,SW03]
+
+#create txt
+
+file = open('test.txt','w')
+
+#create looping 
+
+for device in all_devices:
+        SSH_CON = ConnectHandler(**device)
+        SSH_CON.enable()
+        output1= (f"--------- Device {device['device_type']} ---------\n--------- Uptime ---------\n>")
+        output2= SSH_CON.send_command('show version | include uptime\n')
+        output3= ("\n--------- Log ---------\n>")
+        SSH_CON.send_command('terminal shell')        
+        output4= SSH_CON.send_command('show logging | tail 5\n')
+        SSH_CON.send_command('terminal no shell')
+        output5= ("--------- Ping ---------")
+        output6= SSH_CON.send_command("ping google.com")
+        output7= ("--------- End ---------")
+        file.write(output1)
+        file.write(output2)
+        file.write(output3)
+        file.write(output4)
+        file.write(output5)
+        file.write(output6)
+        file.write(output7)
+        SSH_CON.disconnect()
+
+print ("Success")
