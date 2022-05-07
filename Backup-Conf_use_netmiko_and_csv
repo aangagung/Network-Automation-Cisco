@@ -1,0 +1,34 @@
+from netmiko import ConnectHandler
+import csv
+import netmiko
+from datetime import datetime
+
+#open file csv
+file = open ("router.csv","r")
+data_router = csv.DictReader(file,delimiter=";")
+
+#looping
+for Router in data_router :
+	# try and exception
+	try : 
+
+		#connecting to devices
+		SSH = ConnectHandler(**Router)
+		SSH.enable()
+
+		#set variable hostname as command for show hostname router
+		hostname = SSH.find_prompt()
+		print ("=========================================")
+		print (f"Succes Login {hostname}|{Router['host']}")
+		print ("=========================================")
+
+		#command backup
+		output = SSH.send_command ("show run")
+		file_output = open (f"Backup-Config/Backup Device {hostname}|{Router['host']}|{datetime.now()}.cfg","w")
+		file_output.write (output)
+		file_output.close() 
+		print ("\n")
+		print ("Backup Success")
+
+	except Exception as message :
+		print (f"Default Exception Message : {message}")
